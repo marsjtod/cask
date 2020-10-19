@@ -1,3 +1,5 @@
+# jtod modif. version for python 3
+
 #-******************************************************************************
 #
 # Copyright (c) 2012-2018,
@@ -336,8 +338,8 @@ def get_pod_extent(prop):
     try:
         pod, extent = POD_EXTENT.get(type(value0))
     except TypeError as err:
-        print "Error getting pod, extent from", prop, value0
-        print err
+        print ("Error getting pod, extent from", prop, value0)
+        print (err)
         return (alembic.Util.POD.kUnknownPOD, 1)
     if extent <= 0:
        extent = (len(value0)
@@ -1067,8 +1069,8 @@ class Property(object):
             for i in range(len(self.iobject.samples)):
                 try:
                     self._values.insert(i, self.iobject.samples[i])
-                except RuntimeError, err:
-                    print "Bad value on sample:", i, err
+                except (RuntimeError, err) :
+                    print ("Bad value on sample:", i, err)
                     self._values.insert(i, str(err))
         return self._values
 
@@ -1150,9 +1152,9 @@ class Property(object):
                 try:
                     value = python_to_imath(value)
                     self.oobject.setValue(value)
-                except Exception, err:
-                    print "Error setting value on %s: %s %s\n%s" \
-                        % (self.name, value, self._klass, err)
+                except (Exception, err):
+                    print ("Error setting value on %s: %s %s\n%s" \
+                        % (self.name, value, self._klass, err))
                 del value
         else:
             for prop in self.properties.values():
@@ -1260,7 +1262,7 @@ class Object(object):
                     self._oobject = self._klass(self.parent.oobject, self.name,
                                             meta, self.time_sampling_id)
             else:
-                print "OObject class not found for: %s" % (self.name)
+                print ("OObject class not found for: %s" % (self.name))
 
         return self._oobject
 
@@ -1558,9 +1560,9 @@ class Object(object):
                     obj.getSchema().setCameraSample(sample)
                 else:
                     obj.getSchema().set(sample)
-            except AttributeError, err:
-                print "Error setting sample on %s: %s\n%s" \
-                    % (self.name, sample, err)
+            except (AttributeError, err):
+                print ("Error setting sample on %s: %s\n%s" \
+                    % (self.name, sample, err))
             del sample
         del obj
 
